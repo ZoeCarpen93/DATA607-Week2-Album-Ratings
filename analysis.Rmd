@@ -1,0 +1,26 @@
+---
+title: "Album Ratings Analysis"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# 1️⃣ Load packages
+library(DBI)
+library(RMariaDB)
+library(dplyr)
+
+# 2️⃣ Get credentials from environment variables
+user <- Sys.getenv("MYSQL_USER")
+pw   <- Sys.getenv("MYSQL_PWD")
+
+# 3️⃣ Connect to MySQL
+con <- dbConnect(
+  RMariaDB::MariaDB(),
+  user = user,
+  password = pw,
+  host = "127.0.0.1",
+  port = 3306,
+  dbname = "album_ratings"
+)

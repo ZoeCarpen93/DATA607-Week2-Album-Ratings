@@ -1,0 +1,33 @@
+# 1️⃣ Load the necessary packages
+library(DBI)
+library(RMariaDB)
+library(dplyr)
+
+# 2️⃣ Get your credentials from environment variables
+user <- Sys.getenv("MYSQL_USER")
+pw   <- Sys.getenv("MYSQL_PWD")
+
+# 3️⃣ Connect to MySQL
+con <- dbConnect(
+  RMariaDB::MariaDB(),
+  user = user,
+  password = pw,
+  host = "127.0.0.1",   # localhost
+  port = 3306,          # default MySQL port
+  dbname = "album_ratings"
+)
+
+# 4️⃣ List tables to check connection
+dbListTables(con)
+
+# 5️⃣ Load your ratings table into an R dataframe
+ratings_df <- dbGetQuery(con, "SELECT * FROM ratings;")
+
+# 6️⃣ Quick checks
+head(ratings_df)
+str(ratings_df)
+summary(ratings_df)
+
+# 7️⃣ Disconnect when done
+dbDisconnect(con)
+
